@@ -2,6 +2,7 @@ package com.luciano.saladereuniao.saladereuniao.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -16,6 +17,9 @@ public class Room implements Serializable{
     @Column(name = "name" , nullable = false)
     private String name;
 
+    @Column(name = "date" , nullable = false)
+    private String date;
+
     @Column(name = "startHour" , nullable = false)
     private String startHour;
 
@@ -25,9 +29,10 @@ public class Room implements Serializable{
     public Room() {
     }
 
-    public Room(long id, String name, String startHour, String endHour) {
+    public Room(long id, String name, String date, String startHour, String endHour) {
         this.id = id;
         this.name = name;
+        this.date = date;
         this.startHour = startHour;
         this.endHour = endHour;
     }
@@ -48,6 +53,14 @@ public class Room implements Serializable{
         this.name = name;
     }
 
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
     public String getStartHour() {
         return startHour;
     }
@@ -66,7 +79,7 @@ public class Room implements Serializable{
 
     @Override
     public String toString() {
-        return "Room [id=" + id + ", name=" + name + ", startHour=" + startHour + ", endHour=" + endHour + "]";
+        return "Room [id=" + id + ", name=" + name + ", date=" + date + ", startHour=" + startHour + ", endHour=" + endHour + "]";
     }
 
     @Override

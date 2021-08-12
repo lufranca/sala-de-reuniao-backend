@@ -1,14 +1,13 @@
 package com.luciano.saladereuniao.saladereuniao.controller;
 
+import com.luciano.saladereuniao.saladereuniao.exception.ResourceNotFoundException;
 import com.luciano.saladereuniao.saladereuniao.model.Room;
 import com.luciano.saladereuniao.saladereuniao.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @CrossOrigin(origins = "http://locahost:4200")
@@ -22,5 +21,18 @@ public class RoomController {
     @GetMapping("/rooms")
     public List<Room> getAllRooms() {
         return roomRepository.findAll();
+    }
+
+    @GetMapping("/rooms/{id}")
+    public ResponseEntity<Room> getRoomById(@PathVariable(value = "id") long roomId)
+        throws ResourceNotFoundException{
+            Room room = roomRepository.findById(roomId).orElseThrow(() -> new ResourceNotFoundException(
+                    "Room not found: " + roomId));
+            return ResponseEntity.ok().body(room);
+    }
+
+    @PostMapping("/rooms")
+    public Room createRoom (@Valid @RequestBody Room room) {
+        return roomRepository.save(room);
     }
 }
